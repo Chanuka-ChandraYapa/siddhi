@@ -52,6 +52,9 @@ public class CountAttributeAggregator extends AttributeAggregator {
 
     @Override
     public Object processAdd(Object[] data) {
+        if (data[1].equals(true)){
+            return reset();
+        }
         value++;
         return value;
     }
