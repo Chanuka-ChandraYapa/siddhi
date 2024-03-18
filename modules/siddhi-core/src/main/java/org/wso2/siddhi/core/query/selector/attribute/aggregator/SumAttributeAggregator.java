@@ -38,7 +38,7 @@ public class SumAttributeAggregator extends AttributeAggregator {
      */
     @Override
     protected void init(ExpressionExecutor[] attributeExpressionExecutors, ExecutionPlanContext executionPlanContext) {
-        if (attributeExpressionExecutors.length != 1) {
+        if (attributeExpressionExecutors.length > 2) {
             throw new OperationNotSupportedException("Sum aggregator has to have exactly 1 parameter, currently " +
                     attributeExpressionExecutors.length + " parameters provided");
         }
@@ -74,7 +74,11 @@ public class SumAttributeAggregator extends AttributeAggregator {
     @Override
     public Object processAdd(Object[] data) {
         // will not occur
-        return new IllegalStateException("Sin cannot process data array, but found " + Arrays.deepToString(data));
+        if (data[1].equals(true)){
+            return sumOutputAttributeAggregator.reset();
+        }
+        return sumOutputAttributeAggregator.processAdd(data);
+//        return new IllegalStateException("Sin cannot process data array, but found " + Arrays.deepToString(data));
     }
 
     @Override
@@ -241,8 +245,8 @@ public class SumAttributeAggregator extends AttributeAggregator {
         }
 
         @Override
-        public Object processAdd(Object data) {
-            value += (Long) data;
+        public Object processAdd(Object[] data) {
+            value += (Long) data[0];
             return value;
         }
 
