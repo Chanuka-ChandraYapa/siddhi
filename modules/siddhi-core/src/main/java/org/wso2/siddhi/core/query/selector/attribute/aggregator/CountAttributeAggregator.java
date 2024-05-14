@@ -53,7 +53,7 @@ public class CountAttributeAggregator extends AttributeAggregator {
     @Override
     public Object processAdd(Object[] data) {
         //reset the counter to zero if the second parameter is true
-        if (data[1].equals(true)){
+        if (Boolean.TRUE.equals(data[1])){
             return reset();
         }
         value++;
